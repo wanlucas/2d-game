@@ -1,6 +1,7 @@
 import maps from './maps/maps.js';
 import Player from './class/Player.js';
 import Platform from './class/Platform.js';
+
 import {
   ctx,
   canvasW,
@@ -9,6 +10,7 @@ import {
   platforms,
   config,
   players,
+  camera,
 } from './game.js';
 
 const setInput = (input, value) => {
@@ -72,6 +74,14 @@ function render() {
 
   players.forEach((player) => {
     player.update();
+
+    if (player.position.x > canvasW * 0.7) {
+      for (let i = 0; i < players.length; i += 1) {
+        players[i].position.x -= player.velocity.x;
+      }
+
+      camera.x -= player.velocity.x;
+    }
   });
 
   platforms.forEach((platform) => {
