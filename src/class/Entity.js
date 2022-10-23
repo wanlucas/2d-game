@@ -11,6 +11,7 @@ export default class Entity {
       if (rectanglesVerticalCollision(this, platform)) {
         if (this.position.y + this.height < platform.position.y) {
           this.remainingJumps = 2;
+          this.position.y = platform.position.y - this.height;
         }
         this.velocity.y = 0;
       }
@@ -21,17 +22,9 @@ export default class Entity {
   }
 
   gravity() {
-    const y = this.position.y + this.height;
     const gravityForce = 0.008;
 
-    if (y < canvasH) this.velocity.y += gravityForce * this.weight;
-
-    if (y + this.velocity.y > canvasH) {
-      this.velocity.y = 0;
-      this.position.y = canvasH - this.height;
-      this.remainingJumps += 2;
-      this.readyToJump = true;
-    }
+    this.velocity.y += gravityForce * this.weight;
   }
 
   draw() {
