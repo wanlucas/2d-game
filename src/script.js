@@ -13,23 +13,6 @@ import {
   camera,
 } from './game.js';
 
-const setInput = (input, value) => {
-  switch (input) {
-    case 'KeyD':
-      inputs.right = value;
-      break;
-
-    case 'KeyA':
-      inputs.left = value;
-      break;
-
-    case 'Space':
-      inputs.jump = value;
-      break;
-    default:
-  }
-};
-
 const createPlatform = (i, j, type) => {
   const { tileSize } = config;
   let width;
@@ -75,12 +58,22 @@ function render() {
   players.forEach((player) => {
     player.update();
 
-    if (player.position.x > canvasW * 0.7) {
+    if ((player.position.x > canvasW - 150 && player.velocity.x > 0)
+    || (player.position.x < 150 && player.velocity.x < 0)) {
       for (let i = 0; i < players.length; i += 1) {
         players[i].position.x -= player.velocity.x;
       }
 
       camera.x -= player.velocity.x;
+    }
+
+    if ((player.position.y > canvasH - 100 && player.velocity.y > 0)
+    || (player.position.y < 100 && player.velocity.y < 0)) {
+      for (let i = 0; i < players.length; i += 1) {
+        players[i].position.y -= player.velocity.y;
+      }
+
+      camera.y -= player.velocity.y;
     }
   });
 
@@ -90,6 +83,23 @@ function render() {
 
   requestAnimationFrame(render);
 }
+
+const setInput = (input, value) => {
+  switch (input) {
+    case 'KeyD':
+      inputs.right = value;
+      break;
+
+    case 'KeyA':
+      inputs.left = value;
+      break;
+
+    case 'Space':
+      inputs.jump = value;
+      break;
+    default:
+  }
+};
 
 window.onload = () => {
   createMap(config.map);
