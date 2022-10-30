@@ -103,7 +103,7 @@ const setInput = (input, value) => {
 
 window.onload = () => {
   createMap(config.map);
-  createPlayer(100, canvasH - 50, 50);
+  createPlayer(300, canvasH - 50, 50);
   render();
 };
 
